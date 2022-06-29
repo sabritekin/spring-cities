@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.awt.print.Pageable;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -50,6 +49,13 @@ public class CityController {
         Optional<City> city = cityRepository.findById(id);
         return city.map(response -> ResponseEntity.ok().body(response))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @RequestMapping("/find/{name}")
+    public Collection<City> search(@PathVariable String name) {
+        log.info("Search request received for city with name containing: {}", name);
+
+        return cityRepository.findByNameContainingIgnoreCase(name);
     }
 
     @PutMapping("/update/{id}")

@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 const AppNavbar = (props) => {
 
   const [isOpen, setIsOpen] = useState(false);
-  const isAuthenticated = sessionStorage.getItem("isAuthenticated");
 
   return (
     <Navbar color="dark" dark expand="md" sticky="top">
@@ -14,7 +13,7 @@ const AppNavbar = (props) => {
       <Collapse isOpen={isOpen} navbar>
         <Nav className="justify-content-end" style={{ width: "100%" }} navbar>
           <NavItem>
-            { ({isAuthenticated} === "true") ? <NavLink href="/logout">Logout</NavLink> : <NavLink href="/login">Login</NavLink> }
+            { (sessionStorage.getItem("jwt") !== null) ? <NavLink href="/logout">Logout</NavLink> : <NavLink href="/login">Login</NavLink> }
           </NavItem>
         </Nav>
       </Collapse>

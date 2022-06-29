@@ -9,7 +9,6 @@ import Grid from '@mui/material/Grid';
 
 import AppNavbar from '../components/AppNavbar';
 import { Backdrop, CircularProgress } from '@mui/material';
-import { Button } from 'reactstrap';
 
 const Home = () => {
 
@@ -18,10 +17,12 @@ const Home = () => {
     const [count, setCount] = useState([]);
     const [cities, setCities] = useState([]);
 
+    const itemCount = 20;
+
     const changePage = (event, value) => {
         setLoading(true);
         setPage(value);
-        fetch('api/cities/get-page/10/' + (value - 1))
+        fetch('api/cities/get-page/' + itemCount + '/' + (value - 1))
             .then(response => response.json())
             .then(data => {
                 setCities(data);
@@ -32,7 +33,7 @@ const Home = () => {
     useEffect(() => {
         setLoading(true);
 
-        fetch('api/cities/get-page/10/0')
+        fetch('api/cities/get-page/' + itemCount + '/0')
             .then(response => response.json())
             .then(data => {
                 setCities(data);
@@ -53,10 +54,10 @@ const Home = () => {
                 <CircularProgress color="inherit" />
             </Backdrop>
             <AppNavbar isAuthenticated={false} />
-            <Box sx={{ flexGrow: 1 }} bgcolor="#F6F6F6">
+            <Box sx={{ flexGrow: 1 }} bgcolor="#90bef0">
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
-                        <ImageList variant="masonry" cols={4} gap={4}>
+                        <ImageList variant="masonry" cols={6} gap={4}>
                             {cities.map((city) => (
                                 <ImageListItem key={city.id}>
                                     <img
@@ -66,9 +67,6 @@ const Home = () => {
                                         loading="lazy"
                                     />
                                     <ImageListItemBar position="below" title={city.name}>
-                                        if(jwtToken != null) {
-                                            <Button>Edit</Button>
-                                        }
                                     </ImageListItemBar>
                                 </ImageListItem>
                             ))}
@@ -76,7 +74,7 @@ const Home = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <Stack spacing={2} alignItems="center">
-                            <Pagination count={count / 10} page={page} showFirstButton showLastButton onChange={changePage} size="large" />
+                            <Pagination count={count / itemCount} page={page} showFirstButton showLastButton onChange={changePage} size="large" />
                         </Stack>
                     </Grid>
                 </Grid>

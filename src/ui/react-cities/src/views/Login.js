@@ -1,62 +1,72 @@
-import React, {Component} from 'react';
-import Home from './Home';
+import React, { useState, useEffect } from 'react';
+import { Alert, Backdrop, Box, Button, CircularProgress, FormGroup, Grid, TextField } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
-class Login extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {username: '', password: '', isAuthenticated: false, open: false};
-    }
+const Login = () => {
 
-    handleChange = (event) => {    
-        this.setState({[event.target.name] : event.target.value});    
-    }
+    const[userName, setUserName] = useState("");
+    const[password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [alert, setAlert] = useState(false);
+    const [alertContent, setAlertContent] = useState('');
 
-    login = () => {    
-        const user = {userName: this.state.username, password: this.state.password};    
+    const navigate = useNavigate();
+
+    const handleSubmit = e => {
+        e.preventDefault();
+        setLoading(true);
+        const user = {userName: userName, password: password};    
         fetch("login", {    
             method: 'POST',    
             body: JSON.stringify(user)    
         })    
-            .then(res => {    
+            .then(res => {
                 const jwtToken = res.headers.get('Authorization');    
                 if (jwtToken !== null) {    
                     sessionStorage.setItem("jwt", jwtToken);
                     sessionStorage.setItem("isAuthenticated", "true");
-                    this.setState({isAuthenticated: true});    
-                }    
+                    
+                    navigate('/');
+                }
                 else {    
-                    this.setState({open: true});    
+                    setAlertContent("Failed to log in. Please try again.");
+                    setAlert(true);
+                    setLoading(false);
                 }    
             })    
-            .catch(err => console.error(err))    
+            .catch(err =>{
+                console.error(err);
+                setAlertContent(err);
+                setAlert(true);
+            })
     };
+    
+    useEffect(() => {
+        if(sessionStorage.getItem("jwt") !== null) {
+            navigate('/');
+        }
+      });
 
-    render() {    
-        if (this.state.isAuthenticated === true) {    
-            return (<Home />)    
-        }    
-        else {    
-            return (    
-                <div id="login">    
-                    <h3 className="text-center text-white pt-5">Login form</h3>    
-                    <div className="container">    
-                        <div id="login-row" className="row justify-content-center align-items-center">    
-                        <div id="login-column" className="col-md-6">    
-                         <div id="login-box" className="col-md-12">    
-                        <div className="form-group">    
-                            <input type="text" name="username" onChange={this.handleChange}  className="form-control" placeholder="username" />    
-                        </div>    
-                        <div className="form-group">    
-                            <input type="password" name="password" onChange={this.handleChange}  className="form-control" placeholder="password" />    
-                        </div>    
-                             <input type="submit" name="submit" onClick={this.login}  className="btn btn-info btn-md" value="Login"/>    
-                         </div>    
-                        </div>    
-                        </div>    
-                </div>    
-                </div>    
-        
-     );} }
+    return (
+        <div>
+            <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loading}>
+                <CircularProgress color="inherit" />
+            </Backdrop>            
+            <Grid container justifyContent="center">
+            <Box sx={{ width: 1/4 }}>
+                    <form onSubmit={handleSubmit}>
+                    <FormGroup onSubmit={handleSubmit}>
+                    <TextField label="First Name" required value={userName} onChange={e => setUserName(e.target.value)} />
+                    <TextField label="Password" type="password" required value={password} onChange={e => setPassword(e.target.value)} />
+                    <Button type="submit" variant="contained" color="primary">Login</Button>
+                    </FormGroup>
+                    </form>
+                    { alert ? <Alert severity='error'>{alertContent}</Alert> : <></> }
+            </Box>
+            </Grid>
+        </div>
+    )
+
 }
 
 export default Login;

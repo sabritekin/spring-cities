@@ -17,6 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.env.Environment;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
@@ -35,13 +38,16 @@ public class Initializer implements CommandLineRunner {
     private UserRepository userRepository;
 
     @Autowired
+    private PasswordEncoder encoder;
+
+    @Autowired
     private Environment environment;
 
     @Override
     public void run(String... args) {
         try {
             if(userRepository.findByUserName(environment.getProperty("app.defaultuser.username")).isEmpty()) {
-                userRepository.save(new User(environment.getProperty("app.defaultuser.username"), environment.getProperty("app.defaultuser.password"), environment.getProperty("app.role.editor")));
+                userRepository.saveAndFlush(new User(environment.getProperty("app.defaultuser.username"), encoder.encode(environment.getProperty("app.defaultuser.password")), environment.getProperty("app.role.editor")));
             }
         } catch (Exception exc) {
             log.error("User could not be created. Terminating application...");
