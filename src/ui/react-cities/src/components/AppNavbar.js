@@ -13,7 +13,7 @@ const AppNavbar = (props) => {
       <Collapse isOpen={isOpen} navbar>
         <Nav className="justify-content-end" style={{ width: "100%" }} navbar>
           <NavItem>
-            { (sessionStorage.getItem("jwt") !== null) ? <NavLink href="/logout">Logout</NavLink> : <NavLink href="/login">Login</NavLink> }
+            {(sessionStorage.getItem("jwt") !== null) ? <NavLink href="/logout">Logout</NavLink> : <NavLink href="/login">Login</NavLink>}
           </NavItem>
         </Nav>
       </Collapse>

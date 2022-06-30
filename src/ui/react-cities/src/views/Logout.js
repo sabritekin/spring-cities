@@ -5,18 +5,18 @@ const Logout = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch("logout", {    
+        fetch("logout", {
             method: 'POST'
         })
             .then(response => {
                 sessionStorage.clear();
                 navigate('/');
             })
-      });
+    });
 
-      return (
+    return (
         <div></div>
-      )
+    )
 }
 
 export default Logout;

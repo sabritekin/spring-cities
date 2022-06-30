@@ -1,9 +1,16 @@
+/*
+*
+* Controller class for the City entity.
+*
+* */
 package com.dreamix.springcities.application.controller;
 
+import com.dreamix.springcities.application.dto.CityDTO;
 import com.dreamix.springcities.common.model.City;
 import com.dreamix.springcities.infrastructure.persistance.repository.CityRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -19,28 +27,8 @@ import java.util.Optional;
 @RequestMapping("/api/cities")
 public class CityController {
 
+    @Autowired
     private CityRepository cityRepository;
-
-    @GetMapping("/get-all")
-    Collection<City> getAll() {
-        log.info("GetAll request received");
-
-        return cityRepository.findAll();
-    }
-
-    @GetMapping("/count")
-    long count() {
-        log.info("Count request received");
-
-        return cityRepository.count();
-    }
-
-    @GetMapping("get-page/{size}/{page}")
-    Collection<City> getAll(@PathVariable int size, @PathVariable int page) {
-        log.info("GetAll with paging request received");
-
-        return cityRepository.findAll(PageRequest.of(page, size)).stream().toList();
-    }
 
     @RequestMapping("/get/{id}")
     public ResponseEntity<?> get(@PathVariable Long id) {
@@ -51,11 +39,18 @@ public class CityController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @RequestMapping("/find/{name}")
-    public Collection<City> search(@PathVariable String name) {
-        log.info("Search request received for city with name containing: {}", name);
+    @GetMapping("get/{size}/{page}")
+    CityDTO getAll(@PathVariable int size, @PathVariable int page) {
+        log.info("GetAll with paging request received with size: {} and page: {}", size, page);
 
-        return cityRepository.findByNameContainingIgnoreCase(name);
+        return new CityDTO(cityRepository.count(), cityRepository.findAll(PageRequest.of(page, size)).stream().toList());
+    }
+
+    @GetMapping("get/{size}/{page}/{searchText}")
+    CityDTO getAll(@PathVariable int size, @PathVariable int page, @PathVariable String searchText) {
+        log.info("GetAll with paging and search text request received with size: {}, page: {} and search text: {}", size, page, searchText);
+
+        return new CityDTO(cityRepository.countByNameContainingIgnoreCase(searchText), cityRepository.findByNameContainingIgnoreCase(PageRequest.of(page, size), searchText).stream().toList());
     }
 
     @PutMapping("/update/{id}")
