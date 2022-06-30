@@ -32,7 +32,6 @@ const Home = () => {
 
     const searchCity = (event) => {
         event.preventDefault();
-        setLoading(true);
         setPage(1);
     };
 
@@ -52,7 +51,7 @@ const Home = () => {
             <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loading}>
                 <CircularProgress color="inherit" />
             </Backdrop>
-            <AppNavbar showSearch={true} />
+            <AppNavbar />
             <Box sx={{ flexGrow: 1 }}>
                 <Grid item xs={12} justifyContent="center">
                     <form onSubmit={searchCity}>
