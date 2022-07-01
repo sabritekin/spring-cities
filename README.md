@@ -2,7 +2,7 @@
 A Spring Boot & React application to manipulate city information predefined in a CSV file.
 
 ## Prerequisites
-  - A PostgreSQL instance running on port 5432 with postgres user and spring-cities DB created in it (These settings can be altered using application properties).
+  - A PostgreSQL instance running on port 5432 with user "postgres" and database "spring-cities" created in it (These settings can be altered using application properties).
   - Under "/src/ui/react-cities" directory install the npm packages by using the command "npm install".
   
 ## Running the application
