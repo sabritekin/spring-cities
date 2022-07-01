@@ -1,3 +1,9 @@
+/*
+ *
+ * The User entity which is used to store user info.
+ *
+ */
+
 package com.dreamix.springcities.common.model;
 
 import lombok.Getter;

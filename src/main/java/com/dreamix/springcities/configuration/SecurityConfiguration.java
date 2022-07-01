@@ -44,7 +44,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 //.antMatchers("/api/cities/update/**")
                 //.hasRole(environment.getProperty("app.role.editor"))
-                .antMatchers("/login", "/api/cities/get/**")
+                .antMatchers("/", "/login", "/api/cities/get/**", "/**/*.{js,html,css}")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()

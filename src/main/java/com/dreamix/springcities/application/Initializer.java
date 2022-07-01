@@ -51,6 +51,8 @@ public class Initializer implements CommandLineRunner {
             }
         } catch (Exception exc) {
             log.error("User could not be created. Terminating application...");
+
+            System.exit(1);
         }
 
         try {

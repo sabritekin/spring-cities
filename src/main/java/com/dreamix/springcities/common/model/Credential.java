@@ -1,3 +1,10 @@
+/*
+ *
+ * The Credential class which is used for authentication purposes.
+ *
+ */
+
+
 package com.dreamix.springcities.common.model;
 
 import lombok.Getter;
