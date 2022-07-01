@@ -2,7 +2,7 @@
 A Spring Boot & React application to manipulate city information predefined in a CSV file.
 
 ## Prerequisites
-  The project uses 3 different profiles: "dev", "test" and "prod". Running the application with different profiles requires different prerequisites which are detailed below.
+  The project uses 3 different profiles: "dev", "test" and "prod". Running the application with different profiles requires different prerequisites which are detailed below. The default profile is: "dev".
   
 ## dev
   - Go to the root directory and run: mvn clean install -Pdev
