@@ -47,16 +47,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 //.hasRole(environment.getProperty("app.role.editor"))
                 .antMatchers(HttpMethod.PUT, "/api/v*/city/**")
                 .authenticated()
-                .antMatchers("/", "/login", "/api/v*/city/**", "/**/*.{js,html,css}")
+                .antMatchers("/", "/auth/login", "/auth/logout", "/api/v*/city/**", "/**/*.{js,html,css}")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new LoginFilter("/login", authenticationManager()),
+                .addFilterBefore(new LoginFilter("/auth/login", authenticationManager()),
                         UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new AuthenticationFilter(),
                         UsernamePasswordAuthenticationFilter.class)
                 .logout()
-                .logoutUrl("/logout")
+                .logoutUrl("/auth/logout")
                 .logoutSuccessHandler((new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK)))
                 .permitAll();
     }
