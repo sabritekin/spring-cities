@@ -28,35 +28,7 @@ A Spring Boot & React application to manipulate city information predefined in a
   - Use the account defined in application properties to log in.
 
 ## prod
-  - Start a PostgreSQL instance running on port 5432 with user "postgres" and database "spring-cities" created in it. As this profile requires the necessary tables to be pre-created to avoid deleting production data by mistake, create two tables "cities" and "users" with the queries given below:
-  
-    "cities" table:
-
-        CREATE TABLE IF NOT EXISTS public.cities
-        (
-            id bigint NOT NULL,
-            name character varying(255) COLLATE pg_catalog."default",
-            photo text COLLATE pg_catalog."default",
-            CONSTRAINT cities_pkey PRIMARY KEY (id)
-        )
-        TABLESPACE pg_default;
-        ALTER TABLE IF EXISTS public.cities
-            OWNER to postgres;
-
-    "users" table:
-
-        CREATE TABLE IF NOT EXISTS public.users
-        (
-            id bigint NOT NULL,
-            password character varying(255) COLLATE pg_catalog."default",
-            role character varying(255) COLLATE pg_catalog."default",
-            user_name character varying(255) COLLATE pg_catalog."default",
-            CONSTRAINT users_pkey PRIMARY KEY (id)
-        )
-        TABLESPACE pg_default;
-        ALTER TABLE IF EXISTS public.users
-            OWNER to postgres;
-  
+  - Start a PostgreSQL instance running on port 5432 with user "postgres" and database "spring-cities" created in it.  
   - Go to the root directory and run: mvn clean install -Pprod
   - In the same directory, run:
       - On Windows: mvnw spring-boot:run -Pprod
