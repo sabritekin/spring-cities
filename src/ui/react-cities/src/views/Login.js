@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Alert, Backdrop, Box, Button, CircularProgress, FormGroup, Grid, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import AppNavbar from '../components/AppNavbar';
+import AppNavbar from '../components/common/AppNavbar';
+import authConfig from '../config/api/endpoints/auth-service.json';
 
 const Login = () => {
+
+    const loginEndpoint = authConfig.ENDPOINTS.LOGIN;
 
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
@@ -17,19 +20,23 @@ const Login = () => {
         e.preventDefault();
         setLoading(true);
         const user = { userName: userName, password: password };
-        fetch("login", {
+        fetch(loginEndpoint, {
             method: 'POST',
             body: JSON.stringify(user)
         })
-            .then(res => {
-                const jwtToken = res.headers.get('Authorization');
-                if (jwtToken !== null) {
-                    sessionStorage.setItem("jwt", jwtToken);
-                    sessionStorage.setItem("isAuthenticated", "true");
+            .then(response => {
+                if (response.ok) {
+                    const jwtToken = response.headers.get('Authorization');
+                    if (jwtToken !== null) {
+                        sessionStorage.setItem("jwt", jwtToken);
 
-                    navigate('/');
-                }
-                else {
+                        navigate('/');
+                    } else {
+                        setAlertContent("Failed to log in. Please try again.");
+                        setAlert(true);
+                        setLoading(false);
+                    }
+                } else {
                     setAlertContent("Failed to log in. Please try again.");
                     setAlert(true);
                     setLoading(false);
@@ -64,7 +71,7 @@ const Login = () => {
                             <Button type="submit" variant="contained" color="primary">LOGIN</Button>
                         </FormGroup>
                     </form>
-                    {alert ? <Alert severity='error'>{alertContent}</Alert> : <></>}
+                    {alert ? <Alert severity='error' style={{marginTop: '5px'}}>{alertContent}</Alert> : <></>}
                 </Box>
             </Grid>
         </div>

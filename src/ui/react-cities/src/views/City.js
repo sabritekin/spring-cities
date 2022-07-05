@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Alert, Backdrop, Box, Button, CircularProgress, FormGroup, Grid, TextField } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
-import AppNavbar from '../components/AppNavbar';
+import AppNavbar from '../components/common/AppNavbar';
+
+import cityServiceConfig from '../config/api/endpoints/city-service.json';
 
 const City = () => {
+    const getCityEndpoint = cityServiceConfig.API.PATH + cityServiceConfig.API.VERSION + cityServiceConfig.API.SERVICE + cityServiceConfig.API.ENDPOINTS.GET;
+    const updateCityEndpoint = cityServiceConfig.API.PATH + cityServiceConfig.API.VERSION + cityServiceConfig.API.SERVICE + cityServiceConfig.API.ENDPOINTS.UPDATE;
+
     const initialCity = {
         name: "",
         photo: ""
@@ -20,12 +25,12 @@ const City = () => {
     const handleChange = (event) => {
         const { name, value } = event.target
         setCity({ ...city, [name]: value })
-      }
+    }
 
     const handleSubmit = e => {
         e.preventDefault();
         setLoading(true);
-        fetch("/api/cities/update/" + id, {
+        fetch(updateCityEndpoint + id, {
             method: 'PUT',
             headers: {
                 "Authorization": sessionStorage.getItem("jwt"),
@@ -35,11 +40,21 @@ const City = () => {
         })
             .then(res => {
                 setLoading(false);
-                navigate('/');
+                if (res.ok) {
+                    navigate('/');
+                } else {
+                    if (res.status === 403) {
+                        setAlertContent("You are not allowed to edit. Please log in first.");
+                        setAlert(true);
+                    } else {
+                        setAlertContent("City could not be updated. Please try again.");
+                        setAlert(true);
+                    }
+                }
             })
             .catch(err => {
                 console.error(err);
-                setAlertContent(err);
+                setAlertContent("City could not be updated. Please try again.");
                 setAlert(true);
                 setLoading(false);
             })
@@ -50,7 +65,7 @@ const City = () => {
             navigate('/');
         } else {
             setLoading(true);
-            fetch('/api/cities/get/' + id, {
+            fetch(getCityEndpoint + id, {
                 method: 'GET',
                 headers: {
                     "Authorization": sessionStorage.getItem("jwt"),
@@ -71,7 +86,7 @@ const City = () => {
                     setLoading(false);
                 })
         }
-    }, [id, setCity, navigate]);
+    }, [id, setCity, navigate, getCityEndpoint]);
 
     return (
         <div>

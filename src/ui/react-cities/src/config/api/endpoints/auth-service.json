@@ -1,0 +1,6 @@
+{
+    "ENDPOINTS": {
+        "LOGIN": "/login",
+        "LOGOUT": "/logout"
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "API": {
+        "PATH": "/api/",
+        "VERSION": "v1",
+        "SERVICE": "/city",
+        "ENDPOINTS": {
+            "GET": "/",
+            "UPDATE": "/"
+        }
+    },
+    "QUERY": {
+        "PAGE": "page",
+        "SIZE": "size",
+        "SEARCH": "searchText"
+    }
+}
