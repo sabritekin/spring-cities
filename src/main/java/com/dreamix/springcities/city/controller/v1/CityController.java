@@ -55,27 +55,39 @@ public class CityController {
     }
 
     @GetMapping(params = { "page", "size" })
-    public CityListDTO getPaginated(@RequestParam("page") int page, @RequestParam("size") int size) {
+    public ResponseEntity<CityListDTO> getPaginated(@RequestParam("page") int page, @RequestParam("size") int size) {
         log.info("GetAll with paging request received with size: {} and page: {}", size, page);
 
-        return new CityListDTO(cityRepository.count(),
-                cityRepository.findAll(PageRequest.of((page > 0 ? page : 0), size))
-                        .stream()
-                        .map(city -> modelMapper.map(city, CityDTO.class))
-                        .toList()
-        );
+        try {
+            return ResponseEntity.ok().body(new CityListDTO(cityRepository.count(),
+                    cityRepository.findAll(PageRequest.of(page, size))
+                            .stream()
+                            .map(city -> modelMapper.map(city, CityDTO.class))
+                            .toList())
+            );
+        } catch (Exception exc) {
+            log.error(exc.getMessage());
+
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping(params = { "page", "size", "searchText" })
-    public CityListDTO getPaginated(@RequestParam("page") int page, @RequestParam("size") int size, @RequestParam("searchText") String searchText) {
+    public ResponseEntity<CityListDTO> getPaginated(@RequestParam("page") int page, @RequestParam("size") int size, @RequestParam("searchText") String searchText) {
         log.info("GetAll with paging and search text request received with size: {}, page: {} and search text: {}", size, page, searchText);
 
-        return new CityListDTO(cityRepository.countByNameContainingIgnoreCase(searchText),
-                cityRepository.findByNameContainingIgnoreCase(PageRequest.of((page > 0 ? page : 0), size),searchText)
-                        .stream()
-                        .map(city -> modelMapper.map(city, CityDTO.class))
-                        .toList()
-        );
+        try {
+            return ResponseEntity.ok().body(new CityListDTO(cityRepository.countByNameContainingIgnoreCase(searchText),
+                    cityRepository.findByNameContainingIgnoreCase(PageRequest.of(page, size), searchText)
+                            .stream()
+                            .map(city -> modelMapper.map(city, CityDTO.class))
+                            .toList())
+            );
+        } catch (Exception exc) {
+            log.error(exc.getMessage());
+
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

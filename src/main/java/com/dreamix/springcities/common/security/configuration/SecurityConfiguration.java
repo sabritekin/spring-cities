@@ -8,12 +8,10 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
@@ -32,11 +30,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private Environment environment;
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().cors()
@@ -44,16 +37,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.PUT, "/api/v*/city/**")
                 .authenticated()
-                .antMatchers("/", "/login", "/api/v*/city/**", "/**/*.{js,html,css}")
+                .antMatchers("/", "/auth/login", "/api/v*/city/**", "/**/*.{js,html,css}")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new LoginFilter("/login", authenticationManager()),
+                .addFilterBefore(new LoginFilter("/auth/login", authenticationManager()),
                         UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new AuthenticationFilter(),
                         UsernamePasswordAuthenticationFilter.class)
                 .logout()
-                .logoutUrl("/logout")
+                .logoutUrl("/auth/logout")
                 .logoutSuccessHandler((new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK)))
                 .permitAll();
     }
@@ -62,7 +55,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     CorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("*");
+        config.setAllowedOriginPatterns(List.of("*"));
         config.setAllowedMethods(List.of("*"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);

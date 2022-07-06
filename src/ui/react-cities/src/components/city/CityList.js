@@ -47,7 +47,7 @@ const CityList = () => {
 
     useEffect(() => {
         setLoading(true);
-        fetch(getCityEndpoint + '?' + pageQueryString + '=' + (page - 1)
+        fetch(getCityEndpoint + '?' + pageQueryString + '=' + ((page > 0) ? (page - 1) : 0)
             + '&' + sizeQueryString + '=' + itemCount
             + (((searchText !== "" && searchText !== null) ? ('&' + searchTextQueryString + "=" + searchText) : (""))))
             .then(response => {

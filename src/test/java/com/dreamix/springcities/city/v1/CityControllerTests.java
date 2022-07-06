@@ -1,11 +1,11 @@
-package com.dreamix.springcities;
+package com.dreamix.springcities.city.v1;
 
 import com.dreamix.springcities.city.controller.v1.CityController;
 import com.dreamix.springcities.city.dto.CityDTO;
 import com.dreamix.springcities.city.model.City;
 import com.dreamix.springcities.city.repository.CityRepository;
 import com.dreamix.springcities.user.repository.UserRepository;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-class CityControllerTests {
+public class CityControllerTests {
 
 	@Autowired
 	UserRepository userRepository;
@@ -41,7 +41,7 @@ class CityControllerTests {
 	private ModelMapper modelMapper;
 
 	@Test
-	void contextLoads() {
+	public void contextLoads() {
 		assertThat(userRepository).isNotNull();
 		assertThat(cityRepository).isNotNull();
 		assertThat(cityController).isNotNull();
@@ -50,7 +50,7 @@ class CityControllerTests {
 	}
 
 	@Test
-	void givenCityApiURIWithPathVariable_whenMockMVC_thenResponseOK() throws Exception {
+	public void givenCityApiURIWithPathVariable_whenMockMVC_thenResponseOK() throws Exception {
 		mockMvc.perform(get("/api/v1/city/{id}", 1))
 				.andDo(print())
 				.andExpect(status().isOk())
@@ -62,7 +62,14 @@ class CityControllerTests {
 	}
 
 	@Test
-	void givenCityApiURIWithQueryParameter_whenMockMVC_thenResponseOK() throws Exception {
+	public void givenCityApiURIWithInvalidPathVariable_whenMockMVC_thenResponseNotFound() throws Exception {
+		mockMvc.perform(get("/api/v1/city/{id}", 2000))
+				.andDo(print())
+				.andExpect(status().isNotFound());
+	}
+
+	@Test
+	public void givenCityApiURIWithQueryParameter_whenMockMVC_thenResponseOK() throws Exception {
 		mockMvc.perform(get("/api/v1/city")
 						.param("page", "0")
 						.param("size", "10"))
@@ -75,7 +82,25 @@ class CityControllerTests {
 	}
 
 	@Test
-	void givenCityApiURIWithSearchQueryParameter_whenMockMVC_thenResponseOK() throws Exception {
+	public void givenCityApiURIWithInvalidPageQueryParameter_whenMockMVC_thenResponseBadRequest() throws Exception {
+		mockMvc.perform(get("/api/v1/city")
+						.param("page", "-1")
+						.param("size", "10"))
+				.andDo(print())
+				.andExpect(status().isBadRequest());
+	}
+
+	@Test
+	public void givenCityApiURIWithInvalidSizeQueryParameter_whenMockMVC_thenResponseBadRequest() throws Exception {
+		mockMvc.perform(get("/api/v1/city")
+						.param("page", "0")
+						.param("size", "-1"))
+				.andDo(print())
+				.andExpect(status().isBadRequest());
+	}
+
+	@Test
+	public void givenCityApiURIWithSearchQueryParameter_whenMockMVC_thenResponseOK() throws Exception {
 		mockMvc.perform(get("/api/v1/city")
 						.param("page", "0")
 						.param("size", "10")
@@ -89,7 +114,7 @@ class CityControllerTests {
 	}
 
 	@Test
-	public void givenCityApiURIWithPost_whenMockMVC_thenResponseIsForbidden() throws Exception {
+	public void givenCityApiURIWithPut_whenMockMVC_thenResponseForbidden() throws Exception {
 		City mockCity = new City(1001L, "MockCity", "MockPhoto");
 
 		this.mockMvc.perform(put("/api/v1/city/{id}", 1)
