@@ -1,6 +1,6 @@
-package com.dreamix.springcities.common.security.configuration;
+package com.dreamix.springcities.security.filter;
 
-import com.dreamix.springcities.common.security.service.AuthenticationService;
+import com.dreamix.springcities.security.service.AuthenticationService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
@@ -22,4 +22,5 @@ public class AuthenticationFilter extends GenericFilterBean {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         filterChain.doFilter(request, response);
     }
+
 }

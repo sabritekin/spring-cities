@@ -1,7 +1,7 @@
-package com.dreamix.springcities.common.security.configuration;
+package com.dreamix.springcities.security.filter;
 
-import com.dreamix.springcities.common.security.dto.CredentialsDTO;
-import com.dreamix.springcities.common.security.service.AuthenticationService;
+import com.dreamix.springcities.security.dto.CredentialsDTO;
+import com.dreamix.springcities.security.service.AuthenticationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -5,12 +5,15 @@
  */
 
 
-package com.dreamix.springcities.common.security.dto;
+package com.dreamix.springcities.security.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -18,7 +21,11 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CredentialsDTO {
 
+    @NotBlank
+    @Size(min = 8, max = 16)
     private String userName;
+    @NotBlank
+    @Size(min = 8, max = 16)
     private String password;
 
 }

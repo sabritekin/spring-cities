@@ -11,6 +11,8 @@ import lombok.*;
 import org.springframework.data.jpa.domain.AbstractAuditable;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
@@ -23,9 +25,11 @@ public class City {
 
     @Id
     private Long id;
-    @NonNull
+    @NotBlank
+    @Max(255)
     private String name;
-    @NonNull
+    @NotBlank
+    @Max(2048)
     @Column(columnDefinition="TEXT", length = 2048)
     private String photo;
 

@@ -8,7 +8,6 @@ import com.dreamix.springcities.user.repository.UserRepository;
 import org.junit.Test;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.junit.runner.RunWith;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,16 +36,12 @@ public class CityControllerTests {
 	@Autowired
 	private MockMvc mockMvc;
 
-	@Autowired
-	private ModelMapper modelMapper;
-
 	@Test
 	public void contextLoads() {
 		assertThat(userRepository).isNotNull();
 		assertThat(cityRepository).isNotNull();
 		assertThat(cityController).isNotNull();
 		assertThat(mockMvc).isNotNull();
-		assertThat(modelMapper).isNotNull();
 	}
 
 	@Test
@@ -119,7 +114,7 @@ public class CityControllerTests {
 
 		this.mockMvc.perform(put("/api/v1/city/{id}", 1)
 						.contentType(MediaType.APPLICATION_JSON)
-						.content(modelMapper.map(mockCity, CityDTO.class).toString()))
+						.content(new CityDTO(mockCity.getId(), mockCity.getName(), mockCity.getPhoto()).toString()))
 				.andDo(print())
 				.andExpect(status().isForbidden());
 	}
