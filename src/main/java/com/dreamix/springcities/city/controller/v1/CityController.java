@@ -5,8 +5,9 @@
 * */
 package com.dreamix.springcities.city.controller.v1;
 
-import com.dreamix.springcities.city.dto.CityDTO;
-import com.dreamix.springcities.city.dto.CityListDTO;
+import com.dreamix.springcities.city.dto.GetCityDTO;
+import com.dreamix.springcities.city.dto.GetCityListDTO;
+import com.dreamix.springcities.city.dto.UpdateCityDTO;
 import com.dreamix.springcities.city.repository.CityRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,41 +31,41 @@ public class CityController {
     private CityRepository cityRepository;
 
     @GetMapping("/{id}")
-    public ResponseEntity<CityDTO> get(@PathVariable Long id) {
+    public ResponseEntity<GetCityDTO> get(@PathVariable Long id) {
         log.info("Get request received for city with id: {}", id);
 
         return cityRepository.findById(id)
-                .map(city -> new CityDTO(city.getId(), city.getName(), city.getPhoto()))
+                .map(city -> new GetCityDTO(city.getId(), city.getName(), city.getPhoto()))
                 .map(response -> ResponseEntity.ok().body(response))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CityDTO> update(@PathVariable Long id, @Valid @RequestBody CityDTO cityDTO) {
-        log.info("Update request received for city: {}", cityDTO);
+    public ResponseEntity<Boolean> update(@PathVariable Long id, @Valid @RequestBody UpdateCityDTO updateCityDTO) {
+        log.info("Update request received for city: {}", updateCityDTO);
 
         return cityRepository.findById(id)
                 .map(city -> {
-                    city.setName(cityDTO.getName());
-                    city.setPhoto(city.getPhoto());
+                    city.setName(updateCityDTO.getName());
+                    city.setPhoto(updateCityDTO.getPhoto());
                     return cityRepository.saveAndFlush(city);
                 })
                 .map(response -> ResponseEntity.ok().body(
-                        new CityDTO(response.getId(), response.getName(), response.getPhoto())
+                        Boolean.TRUE
                 ))
                 .orElse(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
     }
 
     @GetMapping(params = { "page", "size" })
-    public ResponseEntity<CityListDTO> getPaginated(@RequestParam("page") @Min(0) int page, @RequestParam("size") @Min(1) int size) {
+    public ResponseEntity<GetCityListDTO> getPaginated(@RequestParam("page") @Min(0) int page, @RequestParam("size") @Min(1) int size) {
         log.info("GetAll with paging request received with size: {} and page: {}", size, page);
 
         try {
             return ResponseEntity.ok().body(
-                    new CityListDTO(cityRepository.count(),
+                    new GetCityListDTO(cityRepository.count(),
                     cityRepository.findAll(PageRequest.of(page, size))
                             .stream()
-                            .map(city -> new CityDTO(city.getId(), city.getName(), city.getPhoto()))
+                            .map(city -> new GetCityDTO(city.getId(), city.getName(), city.getPhoto()))
                             .toList())
             );
         } catch (Exception exc) {
@@ -76,15 +77,15 @@ public class CityController {
     }
 
     @GetMapping(params = { "page", "size", "searchText" })
-    public ResponseEntity<CityListDTO> getPaginated(@RequestParam("page") @Min(0) int page, @RequestParam("size") @Min(1) int size, @RequestParam("searchText") @NotBlank String searchText) {
+    public ResponseEntity<GetCityListDTO> getPaginated(@RequestParam("page") @Min(0) int page, @RequestParam("size") @Min(1) int size, @RequestParam("searchText") @NotBlank String searchText) {
         log.info("GetAll with paging and search text request received with size: {}, page: {} and search text: {}", size, page, searchText);
 
         try {
             return ResponseEntity.ok().body(
-                    new CityListDTO(cityRepository.countByNameContainingIgnoreCase(searchText),
+                    new GetCityListDTO(cityRepository.countByNameContainingIgnoreCase(searchText),
                     cityRepository.findByNameContainingIgnoreCase(PageRequest.of(page, size), searchText)
                             .stream()
-                            .map(city -> new CityDTO(city.getId(), city.getName(), city.getPhoto()))
+                            .map(city -> new GetCityDTO(city.getId(), city.getName(), city.getPhoto()))
                             .toList())
             );
         } catch (Exception exc) {

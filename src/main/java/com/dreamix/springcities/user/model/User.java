@@ -6,15 +6,13 @@
 
 package com.dreamix.springcities.user.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
+@Data
 @Entity
-@Getter
-@Setter
 @Table(name = "users")
 @NoArgsConstructor
 public class User {
@@ -23,8 +21,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, updatable = false)
     private Long id;
+    @NonNull
+    @NotBlank
     private String userName;
+    @NonNull
+    @NotBlank
     private String password;
+    @NonNull
+    @NotBlank
     private String role;
 
     public User(String userName, String password, String role) {

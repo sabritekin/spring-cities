@@ -11,7 +11,7 @@ import javax.validation.constraints.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CityDTO {
+public class GetCityDTO {
 
     @NotNull
     @Min(1)

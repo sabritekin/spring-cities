@@ -1,7 +1,6 @@
-package com.dreamix.springcities.city.v1;
+package com.dreamix.springcities.city.controller.v1;
 
-import com.dreamix.springcities.city.controller.v1.CityController;
-import com.dreamix.springcities.city.dto.CityDTO;
+import com.dreamix.springcities.city.dto.GetCityDTO;
 import com.dreamix.springcities.city.model.City;
 import com.dreamix.springcities.city.repository.CityRepository;
 import com.dreamix.springcities.user.repository.UserRepository;
@@ -16,8 +15,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @EnabledIfSystemProperty(named = "spring.profiles.active", matches = "dev")
@@ -47,10 +46,8 @@ public class CityControllerTests {
 	@Test
 	public void givenCityApiURIWithPathVariable_whenMockMVC_thenResponseOK() throws Exception {
 		mockMvc.perform(get("/api/v1/city/{id}", 1))
-				.andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(content().contentType("application/json"))
-				.andDo(print())
 				.andExpect(jsonPath("$.id").isNotEmpty())
 				.andExpect(jsonPath("$.name").isNotEmpty())
 				.andExpect(jsonPath("$.photo").isNotEmpty());
@@ -59,7 +56,6 @@ public class CityControllerTests {
 	@Test
 	public void givenCityApiURIWithInvalidPathVariable_whenMockMVC_thenResponseNotFound() throws Exception {
 		mockMvc.perform(get("/api/v1/city/{id}", 2000))
-				.andDo(print())
 				.andExpect(status().isNotFound());
 	}
 
@@ -68,10 +64,8 @@ public class CityControllerTests {
 		mockMvc.perform(get("/api/v1/city")
 						.param("page", "0")
 						.param("size", "10"))
-				.andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(content().contentType("application/json"))
-				.andDo(print())
 				.andExpect(jsonPath("$.count").isNotEmpty())
 				.andExpect(jsonPath("$.cityList").isNotEmpty());
 	}
@@ -81,7 +75,6 @@ public class CityControllerTests {
 		mockMvc.perform(get("/api/v1/city")
 						.param("page", "-1")
 						.param("size", "10"))
-				.andDo(print())
 				.andExpect(status().isBadRequest());
 	}
 
@@ -90,7 +83,6 @@ public class CityControllerTests {
 		mockMvc.perform(get("/api/v1/city")
 						.param("page", "0")
 						.param("size", "-1"))
-				.andDo(print())
 				.andExpect(status().isBadRequest());
 	}
 
@@ -100,10 +92,8 @@ public class CityControllerTests {
 						.param("page", "0")
 						.param("size", "10")
 						.param("searchText", "tokyo"))
-				.andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(content().contentType("application/json"))
-				.andDo(print())
 				.andExpect(jsonPath("$.count").isNotEmpty())
 				.andExpect(jsonPath("$.cityList").isNotEmpty());
 	}
@@ -114,8 +104,7 @@ public class CityControllerTests {
 
 		this.mockMvc.perform(put("/api/v1/city/{id}", 1)
 						.contentType(MediaType.APPLICATION_JSON)
-						.content(new CityDTO(mockCity.getId(), mockCity.getName(), mockCity.getPhoto()).toString()))
-				.andDo(print())
+						.content(new GetCityDTO(mockCity.getId(), mockCity.getName(), mockCity.getPhoto()).toString()))
 				.andExpect(status().isForbidden());
 	}
 

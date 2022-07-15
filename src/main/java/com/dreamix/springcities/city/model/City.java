@@ -6,30 +6,35 @@
 
 package com.dreamix.springcities.city.model;
 
-import com.dreamix.springcities.user.model.User;
 import lombok.*;
-import org.springframework.data.jpa.domain.AbstractAuditable;
 
-import javax.persistence.*;
-import javax.validation.constraints.Max;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
 @Table(name = "cities")
 public class City {
 
     @Id
+    @NonNull
     private Long id;
+
     @NotBlank
-    @Max(255)
+    @Size(max = 255)
+    @NonNull
     private String name;
+
     @NotBlank
-    @Max(2048)
+    @Size(max = 2048)
+    @NonNull
     @Column(columnDefinition="TEXT", length = 2048)
     private String photo;
 
