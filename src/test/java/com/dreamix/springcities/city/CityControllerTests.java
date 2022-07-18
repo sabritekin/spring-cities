@@ -1,5 +1,6 @@
-package com.dreamix.springcities.city.controller.v1;
+package com.dreamix.springcities.city;
 
+import com.dreamix.springcities.city.controller.v1.CityController;
 import com.dreamix.springcities.city.dto.GetCityDTO;
 import com.dreamix.springcities.city.model.City;
 import com.dreamix.springcities.city.repository.CityRepository;

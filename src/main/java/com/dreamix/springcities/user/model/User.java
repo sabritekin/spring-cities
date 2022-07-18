@@ -11,9 +11,10 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
-@Data
 @Entity
 @Table(name = "users")
+@Getter
+@Setter
 @NoArgsConstructor
 public class User {
 
@@ -21,13 +22,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, updatable = false)
     private Long id;
-    @NonNull
+
     @NotBlank
     private String userName;
-    @NonNull
+
     @NotBlank
     private String password;
-    @NonNull
+
     @NotBlank
     private String role;
 
