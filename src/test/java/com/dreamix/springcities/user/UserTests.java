@@ -1,4 +1,4 @@
-package com.dreamix.springcities;
+package com.dreamix.springcities.user;
 
 import com.dreamix.springcities.user.model.User;
 import org.junit.Before;
