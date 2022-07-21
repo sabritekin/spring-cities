@@ -1,8 +1,7 @@
-package com.dreamix.springcities.city.dto;
+package com.dreamix.springcities.city.application.facade.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 
 import javax.validation.constraints.Min;

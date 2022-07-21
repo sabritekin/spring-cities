@@ -4,9 +4,9 @@
  *
  */
 
-package com.dreamix.springcities.city.repository;
+package com.dreamix.springcities.city.application.repository;
 
-import com.dreamix.springcities.city.model.City;
+import com.dreamix.springcities.city.domain.entity.City;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

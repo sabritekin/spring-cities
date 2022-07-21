@@ -1,10 +1,8 @@
 package com.dreamix.springcities.city;
 
 import com.dreamix.springcities.city.controller.v1.CityController;
-import com.dreamix.springcities.city.dto.GetCityDTO;
-import com.dreamix.springcities.city.model.City;
-import com.dreamix.springcities.city.repository.CityRepository;
-import com.dreamix.springcities.user.repository.UserRepository;
+import com.dreamix.springcities.city.application.facade.dto.GetCityDTO;
+import com.dreamix.springcities.city.domain.entity.City;
 import org.junit.Test;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.junit.runner.RunWith;
@@ -27,10 +25,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class CityControllerTests {
 
 	@Autowired
-	UserRepository userRepository;
-	@Autowired
-	CityRepository cityRepository;
-	@Autowired
 	CityController cityController;
 
 	@Autowired
@@ -38,8 +32,6 @@ public class CityControllerTests {
 
 	@Test
 	public void contextLoads() {
-		assertThat(userRepository).isNotNull();
-		assertThat(cityRepository).isNotNull();
 		assertThat(cityController).isNotNull();
 		assertThat(mockMvc).isNotNull();
 	}

@@ -1,6 +1,6 @@
 package com.dreamix.springcities.city;
 
-import com.dreamix.springcities.city.model.City;
+import com.dreamix.springcities.city.domain.entity.City;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;

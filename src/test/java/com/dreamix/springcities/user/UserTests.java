@@ -1,6 +1,6 @@
 package com.dreamix.springcities.user;
 
-import com.dreamix.springcities.user.model.User;
+import com.dreamix.springcities.user.domain.entity.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;

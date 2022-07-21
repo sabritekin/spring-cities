@@ -1,4 +1,4 @@
-package com.dreamix.springcities.city.dto;
+package com.dreamix.springcities.city.application.facade.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +10,6 @@ import javax.validation.constraints.*;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 public class GetCityDTO {
 
     @NotNull

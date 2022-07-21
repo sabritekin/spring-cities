@@ -1,6 +1,6 @@
-package com.dreamix.springcities.user.repository;
+package com.dreamix.springcities.user.domain.repository;
 
-import com.dreamix.springcities.user.model.User;
+import com.dreamix.springcities.user.domain.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

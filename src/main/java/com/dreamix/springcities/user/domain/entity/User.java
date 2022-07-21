@@ -4,7 +4,7 @@
  *
  */
 
-package com.dreamix.springcities.user.model;
+package com.dreamix.springcities.user.domain.entity;
 
 import lombok.*;
 

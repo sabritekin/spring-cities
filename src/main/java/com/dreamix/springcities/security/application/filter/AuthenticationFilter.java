@@ -1,6 +1,6 @@
-package com.dreamix.springcities.security.filter;
+package com.dreamix.springcities.security.application.filter;
 
-import com.dreamix.springcities.security.service.AuthenticationService;
+import com.dreamix.springcities.security.domain.service.AuthenticationService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;

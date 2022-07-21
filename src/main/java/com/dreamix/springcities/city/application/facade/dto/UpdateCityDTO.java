@@ -1,4 +1,4 @@
-package com.dreamix.springcities.city.dto;
+package com.dreamix.springcities.city.application.facade.dto;
 
 import lombok.*;
 

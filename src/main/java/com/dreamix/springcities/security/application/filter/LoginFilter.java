@@ -1,7 +1,7 @@
-package com.dreamix.springcities.security.filter;
+package com.dreamix.springcities.security.application.filter;
 
-import com.dreamix.springcities.security.dto.CredentialsDTO;
-import com.dreamix.springcities.security.service.AuthenticationService;
+import com.dreamix.springcities.security.application.dto.CredentialsDTO;
+import com.dreamix.springcities.security.domain.service.AuthenticationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,14 +24,15 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException, IOException {
-        CredentialsDTO userCredentials = new ObjectMapper().readValue(req.getInputStream(), CredentialsDTO.class);
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException {
+        CredentialsDTO userCredentials = new ObjectMapper().readValue(request.getInputStream(), CredentialsDTO.class);
         return getAuthenticationManager().authenticate(
                 new UsernamePasswordAuthenticationToken(userCredentials.getUserName(), userCredentials.getPassword(), Collections.emptyList()));
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication auth) {
-        AuthenticationService.addJWTToken(res, auth.getName());
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) {
+        AuthenticationService.addJWTToken(response, authentication.getName());
     }
+
 }

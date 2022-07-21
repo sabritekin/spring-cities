@@ -5,7 +5,7 @@
  */
 
 
-package com.dreamix.springcities.security.dto;
+package com.dreamix.springcities.security.application.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

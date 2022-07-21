@@ -1,6 +1,6 @@
 package com.dreamix.springcities.authentication;
 
-import com.dreamix.springcities.security.dto.CredentialsDTO;
+import com.dreamix.springcities.security.application.dto.CredentialsDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;

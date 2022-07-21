@@ -1,7 +1,7 @@
-package com.dreamix.springcities.security.configuration;
+package com.dreamix.springcities.security.application.configuration;
 
-import com.dreamix.springcities.security.filter.AuthenticationFilter;
-import com.dreamix.springcities.security.filter.LoginFilter;
+import com.dreamix.springcities.security.application.filter.LoginFilter;
+import com.dreamix.springcities.security.application.filter.AuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

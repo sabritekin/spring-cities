@@ -1,7 +1,7 @@
-package com.dreamix.springcities.user.service;
+package com.dreamix.springcities.user.domain.service;
 
-import com.dreamix.springcities.user.model.User;
-import com.dreamix.springcities.user.repository.UserRepository;
+import com.dreamix.springcities.user.domain.entity.User;
+import com.dreamix.springcities.user.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
