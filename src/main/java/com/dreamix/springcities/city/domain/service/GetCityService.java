@@ -1,8 +1,7 @@
 package com.dreamix.springcities.city.domain.service;
 
-import com.dreamix.springcities.city.domain.entity.City;
 import com.dreamix.springcities.city.application.repository.CityRepository;
-import lombok.RequiredArgsConstructor;
+import com.dreamix.springcities.city.domain.entity.City;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -11,7 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class GetCityService {
 
     @Autowired

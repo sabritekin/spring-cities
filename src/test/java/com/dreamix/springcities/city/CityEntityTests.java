@@ -3,15 +3,15 @@ package com.dreamix.springcities.city;
 import com.dreamix.springcities.city.domain.entity.City;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.*;
 
-@EnabledIfSystemProperty(named = "spring.profiles.active", matches = "dev")
 @RunWith(SpringRunner.class)
-public class CityTests {
+@SpringBootTest
+public class CityEntityTests {
 
     private static final Long TEST_ID = 9_999L;
     private static final String TEST_NAME = "Test City";
@@ -21,10 +21,6 @@ public class CityTests {
     @Before
     public void createTestCity() {
         testCity = new City(TEST_ID, TEST_NAME, TEST_PHOTO);
-    }
-
-    @Before
-    public void givenCity_whenCityConstructor_thenObjectCreated() {
         assertNotNull(testCity);
     }
 

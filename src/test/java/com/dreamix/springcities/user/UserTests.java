@@ -10,7 +10,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-@EnabledIfSystemProperty(named = "spring.profiles.active", matches = "dev")
 @RunWith(SpringRunner.class)
 public class UserTests {
     private static final String TEST_USER_NAME = "Test User";
